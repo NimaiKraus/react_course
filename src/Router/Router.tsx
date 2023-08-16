@@ -2,6 +2,7 @@
 import { useRoutes, Navigate   } from "react-router-dom";
 
 import { CMSOrders, CMSPage, CMSProducts, Cart, Checkout, Login, Shop, Thanks } from "../pages";
+import { PrivateRoute } from "@/components";
 
 // const Cart = lazy(() => import('../pages/Cart/Cart'));
 
@@ -29,7 +30,7 @@ const Router = () => {
         },
         {
             path: 'cms',
-            element: <CMSPage />,
+            element: <PrivateRoute><CMSPage /></PrivateRoute>,
             children: [
                 {
                     path: 'orders',

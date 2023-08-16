@@ -6,12 +6,13 @@ const CMSPage = () => {
   }
 
   return (
-    <div>
+    <div className='mt-6'>
 
       <NavLink className={getLinkClassname} to='/cms/orders'>Orders</NavLink>
       <NavLink className={getLinkClassname} to='/cms/products'>Products</NavLink>
 
       <Outlet />
+      
     </div>
   )
 }

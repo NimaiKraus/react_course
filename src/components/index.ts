@@ -1,4 +1,8 @@
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+export {Navbar} from './core/Navbar';
+export {Footer} from './core/Footer';
+export {Spinner} from './core/Spinner';
+export {Error} from './core/Error';
+export {CartPanel} from './core/CartPanel';
 
-export {Navbar, Footer};
+export {IfLogged} from './auth/IfLogged';
+export {PrivateRoute} from './auth/PrivateRoute';

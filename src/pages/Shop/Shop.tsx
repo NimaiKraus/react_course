@@ -1,32 +1,50 @@
 import { useState, useEffect } from 'react';
+import { pocketbase } from '@/pocketbase';
+
+import { useCart } from '@/services/cart/useCart';
+import { useCartPanel } from '@/services/cart/useCartPanel';
 
 import { Product } from '@/model/Product';
-import { pocketbase } from '@/pocketbase';
+
+import ProductCard from './components/ProductCard';
+import { Error, Spinner } from '@/components';
+import { useProductsServices } from '@/services/products';
 
 
 const Shop = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { actions, state } = useProductsServices();
 
+  const openCartPanel = useCartPanel(state => state.openCartPanel);
 
-  const getProducts = async () => {
-    const products = await pocketbase.collection('products').getList<Product>();
+  const addItemToCart = useCart(state => state.addItem2Cart);
 
-    setProducts(products.items)
+  const addProductToCart = (product: Product) => {
+    addItemToCart(product);
+    openCartPanel();
   }
 
   useEffect(() => {
-    getProducts();
+    actions.getProductsList();
   }, []);
 
   return (
-    <div>
+    <div className='mt-12'>
+
       <h1 className="title">Shop</h1>
 
-      {products.map((product) => (
-        <li key={product.id}>
-          {product.name}
-        </li>
-      ))}
+      {state.pending && <Spinner />}
+      {state.error && <Error />}
+
+      <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-16'>
+        {state.products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCartBtnClick={addProductToCart}
+          />
+        ))}
+      </div>
+
     </div>
   )
 }
